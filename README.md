@@ -60,24 +60,28 @@ const styles = StyleSheet.create({
 
 
 ### Components
+![Components Breakdown](http://nitrajka.com/wp-content/uploads/2016/08/uimockscript.png)
 
 ### Props
 https://facebook.github.io/react-native/docs/props.html
+Props are parameters for components. Think of it as initialising the parameters of a new class. These parameters are read-only. To update, we got to use a callback.
 
 ```javascript
 // TodoList.js
-<TodoRow name={this.todo} />
+<TodoRow name={this.todo} onPress={this.onPress.bind(this)} />
 
 // TodoRow.js
 render() {
   <Text>
     {this.props.name}
+    <Button onPress={this.props.onPress} name="Save" />
   </Text>
 }
 ```
 
 ### State
 https://facebook.github.io/react-native/docs/state.html
+Props are set by the parent and they are fixed throughout the lifetime of a component. For data that is going to change, we have to use state.
 
 ```javascript
 constructor() {

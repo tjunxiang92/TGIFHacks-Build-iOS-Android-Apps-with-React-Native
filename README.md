@@ -1,5 +1,17 @@
 # TGIFHacks Build iOS Android Apps with React Native
 
+## Table of Contents
+1. [Initial Setup](#initial-setup)
+2. [React Native Basics](#react-native-basics)  
+    2.1. [One Way Binding](#one-way-binding)  
+    2.2. [Components](#components)  
+    2.3. [Props](#props)  
+    2.4. [State](#state)  
+3. [ListView](#listview)
+4. [React Navigation](#react-navigation)
+5. [Storage](#storage)
+6. [Network Calls](#network-calls)
+
 ## Initial Setup  
 - On your smartphone, download the app [iOS](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8) & [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en)
 - On your PC, go to https://snack.expo.io/
@@ -181,7 +193,7 @@ try {
 }
 ```
 
-## API Calls
+## Network Calls
 https://facebook.github.io/react-native/docs/network.html
 
 ```javascript

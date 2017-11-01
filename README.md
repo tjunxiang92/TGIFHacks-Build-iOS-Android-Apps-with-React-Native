@@ -62,16 +62,61 @@ const styles = StyleSheet.create({
 
 ```
 
-### React Native Template
-
-```javascript
-
-```
-
 ## Components and Screens
 
 
 
 ## React Navigation
 
+```javascript
+import React from 'react';
+import { StackNavigator } from 'react-navigation';
+import {
+  IndexScreen,
+} from '../screens';
+
+const RootStackNavigator = StackNavigator(
+  {
+    IndexScreen: {
+      screen: IndexScreen,
+    },
+  },
+  {
+    navigationOptions: () => ({
+      headerTitleStyle: {
+        fontWeight: 'normal',
+      },
+    }),
+  }
+);
+
+export default class RootNavigator extends React.Component {
+  render() {
+    return <RootStackNavigator />;
+  }
+}
+```
+
 ## Storage
+
+Persisting Data
+```javascript
+try {
+  await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
+} catch (error) {
+  // Error saving data
+}
+```
+
+Fetching Data
+```javascript
+try {
+  const value = await AsyncStorage.getItem('@MySuperStore:key');
+  if (value !== null){
+    // We have data!!
+    console.log(value);
+  }
+} catch (error) {
+  // Error retrieving data
+}
+```

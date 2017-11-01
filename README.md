@@ -4,7 +4,7 @@
 - On your smartphone, download the app [iOS](https://itunes.apple.com/us/app/expo-client/id982107779?mt=8) & [Android](https://play.google.com/store/apps/details?id=host.exp.exponent&hl=en)
 - On your PC, go to https://snack.expo.io/
 
-## Javascript Basics
+## React Native Basics
 
 ```javascript
 // Import Libraries
@@ -34,7 +34,7 @@ export default class App extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <Text style={styles.paragraph}>
+        <Text>
           Change code in the editor and watch it change on your phone!
           Save to get a shareable url.
         </Text>
@@ -52,24 +52,19 @@ const styles = StyleSheet.create({
     paddingTop: Constants.statusBarHeight,
     backgroundColor: '#ecf0f1',
   },
-  paragraph: {
-    margin: 24,
-    fontSize: 18,
-    fontWeight: 'bold',
-    textAlign: 'center',
-    color: '#34495e',
-  },
 });
-
 ```
 
-## Components and Screens
+### One Way Binding
+![One way binding](http://voidcanvas.com/wp-content/uploads/2014/04/facebook-react-two-way-data-binding.png)
 
-## Props & State
+
+### Components
+
+### Props
 https://facebook.github.io/react-native/docs/props.html
-https://facebook.github.io/react-native/docs/state.html
 
-```
+```javascript
 // TodoList.js
 <TodoRow name={this.todo} />
 
@@ -81,8 +76,10 @@ render() {
 }
 ```
 
+### State
+https://facebook.github.io/react-native/docs/state.html
 
-```
+```javascript
 constructor() {
   super();
   this.state = {

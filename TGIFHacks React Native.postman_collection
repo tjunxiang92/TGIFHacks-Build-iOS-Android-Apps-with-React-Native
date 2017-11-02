@@ -1,0 +1,93 @@
+{
+	"variables": [],
+	"info": {
+		"name": "TGIFHacks React Native",
+		"_postman_id": "68999889-804c-d950-175a-5a99c29b19b4",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Update Todo",
+			"request": {
+				"url": "{{server}}/todos",
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"todoId\": 2,\n\t\"txt\": \"Updated Todo\",\n\t\"complete\": true\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Read Todos",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"postman.setGlobalVariable(\"server\", \"localhost:3000\");"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{server}}/todos",
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Delete Todo",
+			"request": {
+				"url": "{{server}}/todos",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"todoId\": 2\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "Add Todo",
+			"request": {
+				"url": "{{server}}/todos",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"txt\": \"New Todo\",\n\t\"complete\": false\n}"
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}

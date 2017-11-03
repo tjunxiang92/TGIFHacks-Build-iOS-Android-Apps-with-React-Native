@@ -25,10 +25,13 @@ var options = {
 };
 
 class EditScreen extends React.Component {
+    static navigationOptions = {
+        title: "Edit Todo"
+      };
   	onUpdate() {
   		const { goBack, state } = this.props.navigation;
 	    var value = this.refs.form.getValue();
-	    console.log(value);
+
 	    if (value) {
 	        goBack();
 	        state.params.update(value);

@@ -9,56 +9,61 @@ import {
   Alert,
   Button,
   Text,
+  TextInput,
+  ActivityIndicator,
 } from 'react-native';
 
 import TodoItem from '../components/TodoItem';
+import Database from '../apis/NetworkStorage';
 
 class HomeScreen extends Component {
   static navigationOptions = {
     title: "Todo List"
-  }
+  };
+
   constructor(props) {
     super(props);
   
     this.state = {
       todos: [
-        { todoId: 1, txt: 'Learn react native', complete: false },
-        { todoId: 2, txt: 'Make a to-do app', complete: true },
+        // { todoId: 1, txt: 'Learn react native', complete: false },
+        // { todoId: 2, txt: 'Make a to-do app', complete: true },
       ],
       hide: false,
+      loading: true,
+      search: '',
     };
 
+    // Bindings
     this.onPress = this.onPress.bind(this);
     this.onLongPress = this.onLongPress.bind(this);
     this.renderItem = this.renderItem.bind(this);
     this.updateItem = this.updateItem.bind(this);
+    this.onSearch = this.onSearch.bind(this);
+    this.updateState = this.updateState.bind(this);
+
+    // Local Model
+    this.database = new Database(this.updateState);    
+  }
+
+  // Updates the state and write to the database
+  updateState(state) {
+    this.setState({
+      todos: state,
+      loading: false,
+    });
   }
 
   deleteItem(item) {
-    let todos = this.state.todos.slice();
-    const index = todos.map(d => d.todoId).indexOf(item.todoId);
-
-    todos.splice(index, 1);
-    this.setState({
-        todos
-      });
+    this.database.delete(item);
   }
 
   updateItem(item) {
-    // Update Item
+    // Create and Update Item
     if (item.todoId) {
-      let todos = this.state.todos.slice();
-      const index = todos.map(d => d.todoId).indexOf(item.todoId);
-      todos[index] = item;
-      this.setState({
-        todos
-      });
-
-    // Create item
+      this.database.update(item);
     } else {
-      this.setState({
-        todos: this.state.todos.concat([item])
-      });
+      this.database.create(item);
     }
   }
 
@@ -72,21 +77,21 @@ class HomeScreen extends Component {
   onHidePress() {
     if (this.state.hide) {
       this.setState({
-        todos: this.state.allTodos,
+        todos: this.database.read(false, this.state.search),
         hide: false,
       });
     } else {
       this.setState({
-        allTodos: this.state.todos.slice(),
-        todos: this.state.todos.filter(todo => !todo.complete),
+        todos: this.database.read(true, this.state.search),
         hide: true,
       })
     }
   }
 
   toggleComplete(item) {
-    item.complete = !item.complete;
-    this.updateItem(item);
+    const itemDup = {...item};
+    itemDup.complete = !item.complete;
+    this.updateItem(itemDup);
   }
 
   onLongPress(item) {
@@ -107,7 +112,16 @@ class HomeScreen extends Component {
       )
   }
 
+  onSearch(search) {
+    this.setState({
+      todos: this.database.read(this.state.hide, search),
+      search
+    });
+  }
+
   renderEmpty() {
+    if (this.state.loading)
+      return (<ActivityIndicator />)
     if (!this.state.todos.length)
       return (<Text>Start adding some Todos</Text>);
   }
@@ -115,6 +129,11 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
+        <TextInput
+          placeholder="Search..."
+          onChangeText={(search) => this.onSearch(search)}
+          style={styles.textInput}
+          />
         {this.renderEmpty()}
       	<FlatList
 		      data={this.state.todos}

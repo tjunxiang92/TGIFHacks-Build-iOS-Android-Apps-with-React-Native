@@ -173,24 +173,58 @@ onItemPress(index) {
 
 [Completed Version](https://snack.expo.io/HkwiaKtR-)
 
-## Displaying List
-
+## Vertical Scrolling List
 https://facebook.github.io/react-native/docs/flatlist.html
+Component designed for efficient display of vertically scrolling lists of changing data. Examples include Contacts app, Whatsapp Group
 
+### Workshop Time!
+1. https://snack.expo.io/HkmWG9YC-
+2. In `app.js: 63`, update the code.
+```javascript
+<FlatList
+      data={this.state.todos}
+      renderItem={({ item }) => (<TodoItem item={item} onPress={() => this.onPress(item)}/>)}
+      keyExtractor={(item, index) => index}
+      style={styles.listView}
+      />
+```
+3. How can you generate 50 items instead of 20?
+[Completed Version](https://snack.expo.io/S1s1b5YCW)
 
 ## React Navigation
 https://reactnavigation.org/
 
-BasicApp.js
+### Screens
+Screens are essentially components. They are different in a sense where they belong to themselves and not dependant on another component to use them.
+
+### Routes
+This is how routes are defined. There are two main Navigators:
+- StackNavigator - Provides a way for your app to transition between screens where each new screen is placed on top of a stack. Example: WhatsApp (We will only be using this).
+- TabNavigator - Used to easily set up a screen with several tabs. Example: Instagram.
+- DrawerNavigator - Side Panel where it provides functionality such as Profiles.
+
+StackNavigator
 ```javascript
+import React from 'react';
+import { StyleSheet, Text, View } from 'react-native';
+
+import HomeScreen from './screens/HomeScreen';
+import EditScreen from './screens/EditScreen';
+
 import {
-  StackNavigator,
+	StackNavigator
 } from 'react-navigation';
 
-const BasicApp = StackNavigator({
-  Main: {screen: MainScreen},
-  Profile: {screen: ProfileScreen},
-});
+// Define all your routes
+export default StackNavigator({
+  Home: {screen: HomeScreen},
+  Edit: {screen: EditScreen},
+})
+```
+
+In a Screen Component, this is the function to navigate to another screen.
+```javascript
+this.props.navigation.navigate('Edit', { params });
 ```
 
 MainScreen.js
@@ -213,31 +247,90 @@ class MainScreen extends React.Component {
 }
 ```
 
-ProfileScreen.js
-```javascript
-class ProfileScreen extends React.Component {
-  static navigationOptions = ({navigation}) => ({
-    title: navigation.state.params.name,
-  });
-  render() {
-    const { goBack } = this.props.navigation;
-    return (
-      <Button
-        title="Go back"
-        onPress={() => goBack()}
-      />
-    );
-  }
-}
+### Title Text
+This puts a title on the Status Bar.
 ```
+class HomeScreen extends React.Component {
+    static navigationOptions = {
+        title: "Todo List"
+    };
+```
+
+### Props
+When passing props between `Screens`, instead of 
+```
+this.props
+``` 
+it is 
+```
+this.props.navigation.state.params
+```
+
+### Workshop Time!
+`app.js` content has been moved into `HomeScreen.js`. Let's click on an item and show that that is an item to be edited.
+1. https://snack.expo.io/rJPl8qFAW
+2. Update `HomeScreen.js: 36` to navigate to `EditScreen.js` and pass `item` as params.
+3. In `EditScreen.js`, edit the code to display the item passed, if not, show it as `New Item`
+
+[Completed Version](https://snack.expo.io/BkTyY5tCb)
 
 ## Forms
 https://github.com/gcanti/tcomb-form-native
+Easy way to create forms for user to fill up content.
+
+### Headers
+```
+var Form = t.form.Form;
+
+var Todo = t.struct({
+	todoId: t.maybe(t.Integer),
+	txt: t.Str,
+	complete: t.Bool
+});
+
+var options = {
+    fields: {
+    	todoId: {
+    		hidden: true
+    	},
+        txt: {
+            label: 'To-Do Item',
+            placeholder: 'enter a to do item here',
+            autoFocus: true
+        }
+    }
+};
+```
+
+### Display Form to User
+```
+<Form
+    ref="form"
+    type={Todo}
+    onChange={this._onChange}
+    options={options}
+    value={item}/>
+```
+
+### Reading Results from Form
+```
+var value = this.refs.form.getValue();
+```
+
+### Workshop Time!
+Try adding a new field, like a date field.
+1. https://snack.expo.io/BJg0y2cKAW
+2. In `EditScreen.js`, Look into https://github.com/gcanti/tcomb-form-native#dates and Add a Date field
+3. In `TodoItem.js`, Display your dates
+
+* There might be some bugs
+[Completed Version](https://snack.expo.io/BkTGT9KRZ)
 
 ## Storage
 https://facebook.github.io/react-native/docs/asyncstorage.html
+Storing data into the phone database itself
 
-Persisting Data
+### Persisting Data
 ```javascript
 try {
   await AsyncStorage.setItem('@MySuperStore:key', 'I like to save it.');
@@ -246,7 +339,7 @@ try {
 }
 ```
 
-Fetching Data
+### Fetching Data
 ```javascript
 try {
   const value = await AsyncStorage.getItem('@MySuperStore:key');
@@ -258,6 +351,9 @@ try {
   // Error retrieving data
 }
 ```
+
+### Workshop Time!
+[Completed](https://snack.expo.io/HJDyCqKCW)
 
 ## Network Calls
 https://facebook.github.io/react-native/docs/network.html
@@ -273,6 +369,9 @@ async function getMoviesFromApi() {
   }
 }
 ```
+
+### Workshop Time!
+[Completed](https://snack.expo.io/H1Pj0ctAZ)
 
 ## Further Reading
 - Redux - http://redux.js.org/docs/basics/

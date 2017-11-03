@@ -353,24 +353,46 @@ try {
 ```
 
 ### Workshop Time!
+https://snack.expo.io/HJDyCqKCW
+Let's try storing your mode selected to `Hide/Show Completed` into the database
+
 [Completed](https://snack.expo.io/HJDyCqKCW)
 
 ## Network Calls
 https://facebook.github.io/react-native/docs/network.html
+Network calls allows you to access an API resource on the internet.
 
+### GET Request
 ```javascript
-async function getMoviesFromApi() {
-  try {
-    let response = await fetch('https://facebook.github.io/react-native/movies.json');
-    let responseJson = await response.json();
-    return responseJson.movies;
-  } catch(error) {
-    console.error(error);
-  }
+try {
+	const data = await fetch('https://2fc2398d.ngrok.io/todos');
+	this.initialise(await data.json());
+} catch (err) {
+	console.log(err);
+}
+```
+
+### POST Request
+```javascript
+try {
+	const data = await fetch('https://2fc2398d.ngrok.io/todos', {
+	  method: 'POST',
+	  headers: {
+	    'Accept': 'application/json',
+	    'Content-Type': 'application/json',
+	  },
+	  body: JSON.stringify(item)
+	});
+	return await data.json();
+} catch (err) {
+	console.log(err);
 }
 ```
 
 ### Workshop Time!
+https://snack.expo.io/BycasnYC-
+Implement the `createTodo` & `updateTodo` functions
+
 [Completed](https://snack.expo.io/H1Pj0ctAZ)
 
 ## Further Reading

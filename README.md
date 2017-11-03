@@ -91,12 +91,14 @@ Components let you split the UI into independent, reusable pieces, and think abo
 ![Components Breakdown](http://nitrajka.com/wp-content/uploads/2016/08/uimockscript.png)
 
 #### Workshop Time!
-1. Open up https://snack.expo.io/SJv1NOYRZ and load it onto your mobile phone
+1. Open up https://snack.expo.io/HJ-9ypt0W and load it onto your mobile phone
 2. Change some of the text and see how it works
 3. Find where to change up the text inside of `<AssetExample />`
 4. Try copying and pasting `<AssetExample />`, what happens?
 5. Replace `<AssetExample />` with `<TodoItem />`
 6. Delete `<AssetExample />`
+
+[Completed Item](https://snack.expo.io/HkcV-aKAb)
 
 ### Props
 https://facebook.github.io/react-native/docs/props.html
@@ -122,6 +124,8 @@ Edit `TodoItem.js` to use props from `app.js`
 2. In `app.js: 26`, Add `todos.map(todo => (<TodoItem item={todo}/>))`
 3. In `TodoItem.js: 7`, Replace `var item = ...` with `var item = this.props.item`
 4. Play around with it. Try adding a date field. `<TodoItem item={todo} date="3 Nov" />`
+
+[Completed Item](https://snack.expo.io/Bk79x6FR-)
 
 ### State
 https://facebook.github.io/react-native/docs/state.html

@@ -212,7 +212,7 @@ import HomeScreen from './screens/HomeScreen';
 import EditScreen from './screens/EditScreen';
 
 import {
-  StackNavigator
+	StackNavigator
 } from 'react-navigation';
 
 // Define all your routes
@@ -283,16 +283,16 @@ Easy way to create forms for user to fill up content.
 var Form = t.form.Form;
 
 var Todo = t.struct({
-  todoId: t.maybe(t.Integer),
-  txt: t.Str,
-  complete: t.Bool
+	todoId: t.maybe(t.Integer),
+	txt: t.Str,
+	complete: t.Bool
 });
 
 var options = {
     fields: {
-      todoId: {
-        hidden: true
-      },
+    	todoId: {
+    		hidden: true
+    	},
         txt: {
             label: 'To-Do Item',
             placeholder: 'enter a to do item here',
@@ -365,27 +365,27 @@ Network calls allows you to access an API resource on the internet.
 ### GET Request
 ```javascript
 try {
-  const data = await fetch('https://2fc2398d.ngrok.io/todos');
-  this.initialise(await data.json());
+	const data = await fetch('https://2fc2398d.ngrok.io/todos');
+	this.initialise(await data.json());
 } catch (err) {
-  console.log(err);
+	console.log(err);
 }
 ```
 
 ### POST Request
 ```javascript
 try {
-  const data = await fetch('https://2fc2398d.ngrok.io/todos', {
-    method: 'POST',
-    headers: {
-      'Accept': 'application/json',
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(item)
-  });
-  return await data.json();
+	const data = await fetch('https://2fc2398d.ngrok.io/todos', {
+	  method: 'POST',
+	  headers: {
+	    'Accept': 'application/json',
+	    'Content-Type': 'application/json',
+	  },
+	  body: JSON.stringify(item)
+	});
+	return await data.json();
 } catch (err) {
-  console.log(err);
+	console.log(err);
 }
 ```
 

@@ -3,12 +3,13 @@
 ## Table of Contents
 1. [Initial Setup](#initial-setup)
 2. [React Native Basics](#react-native-basics)  
-    2.1. [Components](#components)  
-    2.2. [Props](#props)  
-    2.3. [State](#state)  
-    2.4. [One Way Binding](#one-way-binding)  
-3. [Displaying List](#displaying-list)
-4. [React Navigation](#react-navigation)
+    2.1. [Basic Structure](#basic-structure)  
+    2.2. [Components](#components)  
+    2.3. [Props](#props)  
+    2.4. [State](#state)  
+    2.5. [One Way Binding](#one-way-binding)  
+3. [Vertical Scrolling List](#vertical-scrolling-list)
+4. [Navigation](#navigation)
 5. [Forms](#forms)
 6. [Storage](#storage)
 7. [Network Calls](#network-calls)
@@ -86,7 +87,7 @@ const styles = StyleSheet.create({
 ```
 
 ### Components
-Components let you split the UI into independent, reusable pieces, and think about each piece in isolation. In this workshop, we will be splitting Components into `screens` and `components` folder but both would mean the same thing.
+Components let you split the UI into independent, reusable pieces, and think about each piece in isolation. In this workshop, we will be splitting Components into `screens` and `components` folder but both would mean the same thing.  
 ![Components Breakdown](http://nitrajka.com/wp-content/uploads/2016/08/uimockscript.png)
 
 #### Workshop Time!
@@ -191,7 +192,7 @@ Component designed for efficient display of vertically scrolling lists of changi
 3. How can you generate 50 items instead of 20?
 [Completed Version](https://snack.expo.io/S1s1b5YCW)
 
-## React Navigation
+## Navigation
 https://reactnavigation.org/
 
 ### Screens

@@ -1,7 +1,4 @@
-'use strict';
-
 import React, { Component } from 'react';
-import styles from '../styles/styles';
 
 import {
   View,
@@ -13,17 +10,21 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import styles from '../styles/styles';
 import TodoItem from '../components/TodoItem';
-import Database from '../apis/NetworkStorage';
+import Database from '../apis/LocalDatabase';
 
+/**
+ * HomeScreen for TodoList
+ */
 class HomeScreen extends Component {
   static navigationOptions = {
-    title: "Todo List"
+    title: 'Todo List',
   };
 
   constructor(props) {
     super(props);
-  
+
     this.state = {
       todos: [
         // { todoId: 1, txt: 'Learn react native', complete: false },
@@ -43,7 +44,44 @@ class HomeScreen extends Component {
     this.updateState = this.updateState.bind(this);
 
     // Local Model
-    this.database = new Database(this.updateState);    
+    this.database = new Database(this.updateState);
+  }
+
+  onPress(item) {
+    this.props.navigation.navigate('Edit', {
+      item,
+      update: this.updateItem,
+    });
+  }
+
+  onHidePress() {
+    if (this.state.hide) {
+      this.setState({
+        todos: this.database.read(false, this.state.search),
+        hide: false,
+      });
+    } else {
+      this.setState({
+        todos: this.database.read(true, this.state.search),
+        hide: true,
+      });
+    }
+  }
+
+  onLongPress(item) {
+    Alert.alert('Quick Menu', null, [
+      { text: !item.complete ? 'Set Complete' : 'Set Uncomplete', onPress: () => this.toggleComplete(item) },
+      { text: 'Delete', onPress: () => this.deleteItem(item) },
+      { text: 'Edit', onPress: () => this.onPress(item) },
+      { text: 'Cancel' },
+    ]);
+  }
+
+  onSearch(search) {
+    this.setState({
+      todos: this.database.read(this.state.hide, search),
+      search,
+    });
   }
 
   // Updates the state and write to the database
@@ -67,40 +105,10 @@ class HomeScreen extends Component {
     }
   }
 
-  onPress(item) {
-    this.props.navigation.navigate('Edit', { 
-      item,
-      update: this.updateItem,
-    });
-  }
-
-  onHidePress() {
-    if (this.state.hide) {
-      this.setState({
-        todos: this.database.read(false, this.state.search),
-        hide: false,
-      });
-    } else {
-      this.setState({
-        todos: this.database.read(true, this.state.search),
-        hide: true,
-      })
-    }
-  }
-
   toggleComplete(item) {
-    const itemDup = {...item};
+    const itemDup = { ...item };
     itemDup.complete = !item.complete;
     this.updateItem(itemDup);
-  }
-
-  onLongPress(item) {
-    Alert.alert('Quick Menu', null, [
-      { text: !item.complete ? 'Set Complete' : 'Set Uncomplete', onPress: () => this.toggleComplete(item) },
-      { text: 'Delete', onPress: () => this.deleteItem(item) },
-      { text: 'Edit', onPress: () => this.onPress(item) },
-      { text: 'Cancel' },
-    ]);
   }
 
   renderItem({ item }) {
@@ -108,22 +116,18 @@ class HomeScreen extends Component {
       <TodoItem item={item}
         onPress={() => this.onPress(item)}
         onLongPress={() => this.onLongPress(item)}
-        />
-      )
-  }
-
-  onSearch(search) {
-    this.setState({
-      todos: this.database.read(this.state.hide, search),
-      search
-    });
+      />
+    );
   }
 
   renderEmpty() {
-    if (this.state.loading)
-      return (<ActivityIndicator />)
-    if (!this.state.todos.length)
+    if (this.state.loading) {
+      return (<ActivityIndicator />);
+    } else if (!this.state.todos.length) {
       return (<Text>Start adding some Todos</Text>);
+    }
+
+    return null;
   }
 
   render() {
@@ -131,24 +135,24 @@ class HomeScreen extends Component {
       <View style={styles.container}>
         <TextInput
           placeholder="Search..."
-          onChangeText={(search) => this.onSearch(search)}
+          onChangeText={search => this.onSearch(search)}
           style={styles.textInput}
-          />
+        />
         {this.renderEmpty()}
-      	<FlatList
-		      data={this.state.todos}
-		      renderItem={this.renderItem}
-		      keyExtractor={(item, index) => index}
-		      style={styles.listView}
-		      />
+        <FlatList
+          data={this.state.todos}
+          renderItem={this.renderItem}
+          keyExtractor={(item, index) => index}
+          style={styles.listView}
+        />
         <Button
           onPress={() => this.onHidePress()}
-          title={this.state.hide ? "Show Completed" : "Hide Completed"}
-          />
+          title={this.state.hide ? 'Show Completed' : 'Hide Completed'}
+        />
         <Button
           onPress={() => this.onPress()}
           title="Add"
-          />
+        />
       </View>
     );
   }

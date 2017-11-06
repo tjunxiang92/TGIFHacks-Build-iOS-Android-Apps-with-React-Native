@@ -10,9 +10,18 @@ import {
   ActivityIndicator,
 } from 'react-native';
 
+import {
+  addTodo,
+  updateTodo,
+  deleteTodo,
+  toggleComplete,
+  updateSearch,
+} from '../actions/todos';
+
+import { connect } from 'react-redux';
+
 import styles from '../styles/styles';
 import TodoItem from '../components/TodoItem';
-import Database from '../apis/LocalDatabase';
 
 /**
  * HomeScreen for TodoList
@@ -25,105 +34,34 @@ class HomeScreen extends Component {
   constructor(props) {
     super(props);
 
-    this.state = {
-      todos: [
-        // { todoId: 1, txt: 'Learn react native', complete: false },
-        // { todoId: 2, txt: 'Make a to-do app', complete: true },
-      ],
-      hide: false,
-      loading: true,
-      search: '',
-    };
-
     // Bindings
     this.onPress = this.onPress.bind(this);
     this.onLongPress = this.onLongPress.bind(this);
-    this.renderItem = this.renderItem.bind(this);
-    this.updateItem = this.updateItem.bind(this);
-    this.onSearch = this.onSearch.bind(this);
-    this.updateState = this.updateState.bind(this);
-
-    // Local Model
-    this.database = new Database(this.updateState);
   }
 
-  onPress(item) {
-    this.props.navigation.navigate('Edit', {
-      item,
-      update: this.updateItem,
-    });
+  onPress(todo) {
+    this.props.navigation.navigate('Edit', { todo });
   }
 
-  onHidePress() {
-    if (this.state.hide) {
-      this.setState({
-        todos: this.database.read(false, this.state.search),
-        hide: false,
-      });
-    } else {
-      this.setState({
-        todos: this.database.read(true, this.state.search),
-        hide: true,
-      });
-    }
-  }
-
-  onLongPress(item) {
+  onLongPress(todo) {
     Alert.alert('Quick Menu', null, [
-      { text: !item.complete ? 'Set Complete' : 'Set Uncomplete', onPress: () => this.toggleComplete(item) },
-      { text: 'Delete', onPress: () => this.deleteItem(item) },
-      { text: 'Edit', onPress: () => this.onPress(item) },
+      { text: !todo.complete ? 'Set Complete' : 'Set Uncomplete', onPress: () => this.props.dispatch(updateTodo({ ...todo, complete: !todo.complete })) },
+      { text: 'Delete', onPress: () => this.props.dispatch(deleteTodo(todo)) },
+      { text: 'Edit', onPress: () => this.onPress(todo) },
       { text: 'Cancel' },
     ]);
   }
 
-  onSearch(search) {
-    this.setState({
-      todos: this.database.read(this.state.hide, search),
-      search,
-    });
-  }
-
-  // Updates the state and write to the database
-  updateState(state) {
-    this.setState({
-      todos: state,
-      loading: false,
-    });
-  }
-
-  deleteItem(item) {
-    this.database.delete(item);
-  }
-
-  updateItem(item) {
-    // Create and Update Item
-    if (item.todoId) {
-      this.database.update(item);
-    } else {
-      this.database.create(item);
-    }
-  }
-
-  toggleComplete(item) {
-    const itemDup = { ...item };
-    itemDup.complete = !item.complete;
-    this.updateItem(itemDup);
-  }
-
-  renderItem({ item }) {
-    return (
-      <TodoItem item={item}
-        onPress={() => this.onPress(item)}
-        onLongPress={() => this.onLongPress(item)}
-      />
-    );
+  getTodos() {
+    return this.props.todos
+      .filter(todo => !this.props.hide || !todo.complete)
+      .filter(todo => todo.txt.indexOf(this.props.search) !== -1);
   }
 
   renderEmpty() {
-    if (this.state.loading) {
+    if (this.props.loading) {
       return (<ActivityIndicator />);
-    } else if (!this.state.todos.length) {
+    } else if (!this.props.todos.length) {
       return (<Text>Start adding some Todos</Text>);
     }
 
@@ -131,23 +69,32 @@ class HomeScreen extends Component {
   }
 
   render() {
+    const renderItem = ({ item }) => (
+      <TodoItem
+        todo={item}
+        onPress={() => this.onPress(item)}
+        onLongPress={() => this.onLongPress(item)}
+      />
+    );
+
     return (
       <View style={styles.container}>
         <TextInput
           placeholder="Search..."
-          onChangeText={search => this.onSearch(search)}
+          onChangeText={search => this.props.dispatch(updateSearch(search))}
           style={styles.textInput}
         />
         {this.renderEmpty()}
+
         <FlatList
-          data={this.state.todos}
-          renderItem={this.renderItem}
-          keyExtractor={(item, index) => index}
+          data={this.getTodos()}
+          renderItem={renderItem}
+          keyExtractor={(todo, index) => index}
           style={styles.listView}
         />
         <Button
-          onPress={() => this.onHidePress()}
-          title={this.state.hide ? 'Show Completed' : 'Hide Completed'}
+          onPress={() => this.props.dispatch(toggleComplete())}
+          title={this.props.hide ? 'Show Completed' : 'Hide Completed'}
         />
         <Button
           onPress={() => this.onPress()}
@@ -158,4 +105,14 @@ class HomeScreen extends Component {
   }
 }
 
-export default HomeScreen;
+const mapStateToProps = (state) => {
+  const { todos, hide, search } = state.todos;
+
+  return {
+    todos,
+    hide,
+    search,
+  };
+};
+
+export default connect(mapStateToProps)(HomeScreen);

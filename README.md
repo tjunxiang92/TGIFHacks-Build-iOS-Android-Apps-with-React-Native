@@ -1,5 +1,8 @@
 # TGIFHacks Build iOS Android Apps with React Native
 
+## Todos
+- Remove Local Database as Redux has been added
+
 ## Table of Contents
 1. [Initial Setup](#initial-setup)
 2. [React Native Basics](#react-native-basics)  
@@ -54,13 +57,13 @@ export default class App extends Component {
     super(props);
     this.state = {};
   }
-  
+
   componentDidMount() {
     this.setState({
       ...
     });
   }
-  
+
   // Generate UI
   render() {
     return (
@@ -172,7 +175,7 @@ onItemPress(index) {
 }
 ```
 3. In `app.js: 50`, Pass the function as props to `<TodoItem />`
-`<TodoItem item={todo} index={i} onPress={this.onItemPress.bind(this)}/>` 
+`<TodoItem item={todo} index={i} onPress={this.onItemPress.bind(this)}/>`
 4. Try to change the code to delete when pressed instead
 `todos.splice(index, 1);`
 
@@ -262,11 +265,11 @@ class HomeScreen extends React.Component {
 ```
 
 ### Props
-When passing props between `Screens`, instead of 
+When passing props between `Screens`, instead of
 ```
 this.props
-``` 
-it is 
+```
+it is
 ```
 this.props.navigation.state.params
 ```

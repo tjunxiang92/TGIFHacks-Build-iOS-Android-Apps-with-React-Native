@@ -6,6 +6,9 @@
     "react": "16.0.0-beta.5",
     "react-native": "https://github.com/expo/react-native/archive/sdk-22.0.1.tar.gz",
     "react-navigation": "^1.0.0-beta.16",
+    "react-redux": "^5.0.4",
+    "redux": "^3.7.2",
+    "redux-logger": "^3.0.1",
     "tcomb-form-native": "^0.6.11"
   },
   "name": "tgifhack-todolist",

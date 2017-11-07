@@ -1,7 +1,10 @@
 # TGIFHacks Build iOS Android Apps with React Native
 
-## Todos
-- Remove Local Database as Redux has been added
+## Resources
+- React Native Basics Tutorial - https://learn.handlebarlabs.com/p/react-native-basics-build-a-currency-converter
+- Redux - http://redux.js.org/docs/basics/
+- React Native Resources - https://github.com/jondot/awesome-react-native
+- React Native Newsletter - http://reactnative.cc/
 
 ## Table of Contents
 1. [Initial Setup](#initial-setup)
@@ -402,8 +405,3 @@ https://snack.expo.io/BycasnYC-
 Implement the `createTodo` & `updateTodo` functions
 
 [Completed](https://snack.expo.io/H1Pj0ctAZ)
-
-## Further Reading
-- Redux - http://redux.js.org/docs/basics/
-- React Native Resources - https://github.com/jondot/awesome-react-native
-- React Native Newsletter - http://reactnative.cc/

@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
 import {
@@ -11,6 +12,7 @@ import {
 } from 'react-native';
 
 import {
+  getInitialTodos,
   addTodo,
   updateTodo,
   deleteTodo,
@@ -37,6 +39,10 @@ class HomeScreen extends Component {
     // Bindings
     this.onPress = this.onPress.bind(this);
     this.onLongPress = this.onLongPress.bind(this);
+  }
+
+  componentWillMount() {
+    this.props.dispatch(getInitialTodos());
   }
 
   onPress(todo) {

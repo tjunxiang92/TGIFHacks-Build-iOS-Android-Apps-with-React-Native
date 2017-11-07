@@ -4,6 +4,9 @@ import {
   TOGGLE_COMPLETE,
   UPDATE_SEARCH,
   DELETE_TODO,
+  SAVE_TODOS_ERROR,
+  FETCH_TODOS_RESULT,
+  FETCH_TODOS_ERROR,
 } from '../actions/todos';
 
 const initialState = {
@@ -56,6 +59,22 @@ const reducer = (state = initialState, action) => {
         ...state,
         search: action.search,
       };
+    case FETCH_TODOS_RESULT:
+      return {
+        ...state,
+        todos: action.todos,
+        currentId: action.todos[action.todos.length - 1].todoId + 1,
+      }
+    case FETCH_TODOS_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      }
+    case SAVE_TODOS_ERROR:
+      return {
+        ...state,
+        error: action.error,
+      }
     default:
       return state;
   }
